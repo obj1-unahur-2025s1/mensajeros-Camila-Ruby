@@ -1,0 +1,67 @@
+import objetos.*
+
+describe "name" {
+  test "Roberto puede llevar un paquete que está pago en un camión que tiene un acoplado." {
+    camion.acoplados(1) // modificamos la cantidad de acoplados del camión
+    roberto.vehiculo(camion) //le asignamos a Roberto como vehiculo el camion
+    paqueteOriginal.estaPago(true) // Dejamos pago el paquete
+    paqueteOriginal.destino(puenteBroockyn)
+    //Le asignamos el destino Puente de Broockyn ya que Roberto no puede ir a la Matrix
+    assert.that(roberto.puedeEntregarPaquete(paqueteOriginal))
+    // hacemos que lo envie
+  }
+  
+  test "Neo no puede llevar un paquete que no está pago a la Matrix" {
+    //paquete original, inicia no estando pago y con el destino de la Matrix
+    assert.notThat(neo.puedeEntregarPaquete(paqueteOriginal))
+  }
+}
+
+describe "Testeamos la empresa" {
+  test "La empresa inicia con 0 mensajeros, si agregamos a Neo, él sera su unico mensajero" {
+    assert.equals([], empresa.mensajeros())//Mensajeros esta vacia
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    assert.equals([neo], empresa.mensajeros()) //Neo es el unico en la lista
+  }
+
+  test "si contratamos a neo y roberto, y luego despedimos a Neo, Roberto es el unico en la lista de mensajeros" {
+    empresa.contratarMensajero(roberto) //constratamos a Roberto
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    empresa.despedirMensajero(neo) // desedimos a Neo
+    assert.equals([roberto], empresa.mensajeros()) //Roberto es el unico en la lista
+  }
+
+  test "si contratamos a neo, roberto y chuckNorris, y luego despedimos a todos, la lista de mensajeros queda vacia" {
+    empresa.contratarMensajero(roberto) //constratamos a Roberto
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    empresa.contratarMensajero(chuckNorris) //constratamos a chuck
+    empresa.despedirATodos() // desedimos a todos
+    assert.equals([], empresa.mensajeros()) //la lista esta vacia
+  }
+    test "Analizar si la mensajeria es grande (si tiene mas de dos mensajeros)" {
+    empresa.contratarMensajero(roberto) //constratamos a Roberto
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    empresa.contratarMensajero(chuckNorris) //constratamos a chuck
+    // tiene 3 mensajeros, deberia considerarse una empresa grande
+    assert.that(empresa.esGrande())
+  }
+  test "Consultar si el paquete puede ser entregado por el primer empleado
+  de la la empresa de mensajería.
+  Tomamos a Neo y Paquete Original, que ya testamos que NO PUEDE" {
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    assert.notThat(empresa.mensajeros().first().puedeEntregarPaquete(paqueteOriginal))
+    // o con el metodo
+    assert.notThat(empresa.primerEmpleadoPuedeEntregar(paqueteOriginal))
+  }
+
+  test "Saber el peso del último mensajero de la empresa." {
+    empresa.contratarMensajero(roberto) //constratamos a Roberto
+    empresa.contratarMensajero(neo) //constratamos a Neo
+    empresa.contratarMensajero(chuckNorris) //constratamos a chuck
+    //Vamos a esperar que la respuesta sea el peso de Chuck que es 80
+    assert.equals(80, empresa.mensajeros().last().peso())
+    // con el metodo
+    assert.equals(80, empresa.pesoUltimoMensajero())
+  }
+  
+}
