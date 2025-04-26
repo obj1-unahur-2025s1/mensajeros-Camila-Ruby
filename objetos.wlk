@@ -64,7 +64,7 @@ object paquetito {
  
 }
 
-object paquetonViajero {
+/*object paquetonViajero {
   var property destinos = [laMatrix, puenteBroockyn]
   var pagoCuota = 0
   method destino() = destinos
@@ -76,7 +76,7 @@ object paquetonViajero {
   method pagoCuota() = pagoCuota
 
 }
-
+*/
 
 //Empresa
 object empresa {
