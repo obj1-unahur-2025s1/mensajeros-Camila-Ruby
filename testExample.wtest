@@ -1,4 +1,6 @@
-import objetos.*
+import mensajerosYDestinos.*
+import empresaYPaquetes.*
+
 
 describe "name" {
   test "Roberto puede llevar un paquete que está pago en un camión que tiene un acoplado." {
@@ -62,6 +64,14 @@ describe "Testeamos la empresa" {
     assert.equals(80, empresa.mensajeros().last().peso())
     // con el metodo
     assert.equals(80, empresa.pesoUltimoMensajero())
+  }
+
+  test "La unica forma que empresa tenga sobrepeso es contratando a 
+  chuckNorris y Roberto CON camion como vehiculo" {
+    roberto.vehiculo(camion)
+    empresa.contratarMensajero(chuckNorris)
+    empresa.contratarMensajero(roberto)
+    assert.that(empresa.tieneSobrepeso())
   }
   
 }
